@@ -4,15 +4,18 @@ import Filters from "./components/Filters";
 import SortOptions from "./components/SortOptions";
 import "./styles.css";
 
+const defaultFilters = {
+  category: "",
+  brand: "",
+  priceRange: [0, 1000],
+  availability: "",
+};
+
 const App = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [filters, setFilters] = useState({
-    category: "",
-    brand: "",
-    priceRange: [0, 1000],
-    availability: "",
-  });
+  const [filters, setFilters] = useState(defaultFilters);
+  const [brands, setBrands] = useState([]);
 
   useEffect(() => {
     fetch("https://dummyjson.com/products")
@@ -20,6 +23,9 @@ const App = () => {
       .then((data) => {
         setProducts(data.products);
         setFilteredProducts(data.products);
+        setBrands(
+          data.products.map((product) => product.brand).filter((brand) => brand)
+        );
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
@@ -31,6 +37,7 @@ const App = () => {
         setFilters={setFilters}
         products={products}
         setFilteredProducts={setFilteredProducts}
+        brands={brands}
       />
       <div className="main-content">
         <SortOptions

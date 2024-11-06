@@ -1,6 +1,13 @@
 import React from "react";
+import { useState } from "react";
 
-const Filters = ({ filters, setFilters, products, setFilteredProducts }) => {
+const Filters = ({
+  filters,
+  setFilters,
+  products,
+  setFilteredProducts,
+  brands,
+}) => {
   const handleCategoryChange = (e) => {
     const selectedCategory = e.target.value;
     setFilters((prev) => ({ ...prev, category: selectedCategory }));
@@ -8,6 +15,24 @@ const Filters = ({ filters, setFilters, products, setFilteredProducts }) => {
     const filtered = products.filter(
       (product) =>
         product.category === selectedCategory || selectedCategory === ""
+    );
+    setFilteredProducts(filtered);
+  };
+
+  const handleMaxPriceChange = (e) => {
+    const maxPrice = Number(e.target.value);
+    setFilters((prev) => ({ ...prev, price: [0, maxPrice] }));
+
+    const filtered = products.filter((product) => product.price >= maxPrice);
+    setFilteredProducts(filtered);
+  };
+
+  const handleBrandChange = (e) => {
+    const selectedBrand = e.target.value;
+    setFilters((prev) => ({ ...prev, brand: selectedBrand }));
+
+    const filtered = products.filter(
+      (product) => product.brand === selectedBrand || selectedBrand === ""
     );
     setFilteredProducts(filtered);
   };
@@ -60,6 +85,42 @@ const Filters = ({ filters, setFilters, products, setFilteredProducts }) => {
         />
         Groceries
       </label>
+      <h3>Price range $0 - $2500</h3>
+      <input
+        type={"range"}
+        min={0}
+        max={2500}
+        onChange={handleMaxPriceChange}
+      ></input>
+      {brands && brands.length > 0 ? (
+        <>
+          <h3>Brands</h3>
+          <label>
+            <input
+              type="radio"
+              value={""}
+              checked={filters.brand === ""}
+              onChange={handleBrandChange}
+              key={"defaultBrand"}
+            />
+            Any Brand
+          </label>
+          {brands.map((brand) => {
+            return (
+              <label>
+                <input
+                  type="radio"
+                  value={brand}
+                  checked={filters.brand === brand}
+                  onChange={handleBrandChange}
+                  key={brand}
+                />
+                {brand}
+              </label>
+            );
+          })}
+        </>
+      ) : null}
     </div>
   );
 };
