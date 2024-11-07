@@ -1,18 +1,9 @@
 import React from "react";
 
-const SortOptions = ({ setFilteredProducts, products }) => {
+const SortOptions = ({ handleFilterChange, products, filters }) => {
   const handleSortChange = (e) => {
     const sortBy = e.target.value;
-
-    let sortedProducts = [...products];
-    if (sortBy === "priceLowHigh") {
-      sortedProducts.sort((a, b) => a.price - b.price);
-    } else if (sortBy === "priceHighLow") {
-      sortedProducts.sort((a, b) => b.price - a.price);
-    } else if (sortBy === "mostPopular") {
-      sortedProducts.sort((a, b) => b.rating - a.rating);
-    }
-    setFilteredProducts(sortedProducts);
+    handleFilterChange({ ...filters, sortBy });
   };
 
   return (

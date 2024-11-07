@@ -7,34 +7,21 @@ const Filters = ({
   products,
   setFilteredProducts,
   brands,
+  handleFilterChange,
 }) => {
   const handleCategoryChange = (e) => {
     const selectedCategory = e.target.value;
-    setFilters((prev) => ({ ...prev, category: selectedCategory }));
-
-    const filtered = products.filter(
-      (product) =>
-        product.category === selectedCategory || selectedCategory === ""
-    );
-    setFilteredProducts(filtered);
+    handleFilterChange({ ...filters, category: selectedCategory });
   };
 
   const handleMaxPriceChange = (e) => {
     const maxPrice = Number(e.target.value);
-    setFilters((prev) => ({ ...prev, price: [0, maxPrice] }));
-
-    const filtered = products.filter((product) => product.price >= maxPrice);
-    setFilteredProducts(filtered);
+    handleFilterChange({ ...filters, price: [0, maxPrice] });
   };
 
   const handleBrandChange = (e) => {
     const selectedBrand = e.target.value;
-    setFilters((prev) => ({ ...prev, brand: selectedBrand }));
-
-    const filtered = products.filter(
-      (product) => product.brand === selectedBrand || selectedBrand === ""
-    );
-    setFilteredProducts(filtered);
+    handleFilterChange({ ...filters, brand: selectedBrand });
   };
 
   return (
