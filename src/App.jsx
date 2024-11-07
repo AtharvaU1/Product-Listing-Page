@@ -9,6 +9,7 @@ const defaultFilters = {
   brand: "",
   availability: "",
   sortBy: "",
+  price: [0, 0]
 };
 
 const App = () => {
